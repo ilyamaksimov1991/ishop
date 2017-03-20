@@ -1,0 +1,68 @@
+.puta{
+   overflow: hidden; /* Свойство overflow управляет отображением содержания блочного элемента, 
+                      если оно целиком не помещается и выходит за область заданных размеров. */
+   margin: 40px 0 30px 0;
+}
+
+.tabl-vid-phone{
+    float: left; /* левое выранивание -ВНУТРИ БЛОКА .puta*/
+    width: 33%; /* ширина 33%*/
+    font-size: 12px;
+    font-family: Verdana, Geneva, sans-serif; /* шрифт*/
+    text-align: center; /* выравнивание текста по центру*/
+    margin-bottom: 40px
+    }
+    
+    .tabl-vid-phone p a{
+        color: #888888;
+    }
+    
+        .tabl-vid-phone a:hover{
+         text-decoration: none;  /* без подчеркивания */
+         }
+         
+         
+     .tabl-vid-phone h4 a {
+        color: #2b8aba;
+        font-size: 12px;
+        font-family: Verdana, Geneva, sans-serif; /* шрифт*/
+        font-weight: normal; /* без жирности */
+     } 
+     
+           
+           
+        .tabl-vid-phone span{
+         font-size: 24px;
+         font-family: Candara, Geneva, sans-serif; /* шрифт*/
+         font-weight: normal;    /* без жирности */
+        }
+    
+            .tabl-vid-phone img{
+             margin-top: 5px;
+            }
+    
+    
+      .bloc-c-image-phone{
+        margin: 15px auto;
+        position: relative; /* position - Устанавливает способ позиционирования элемента 
+                            относительно окна браузера или других объектов на веб-странице. 
+                            
+                            relative -Положение элемента устанавливается относительно его исходного места. 
+                            Добавление свойств left, top, right и bottom изменяет позицию элемента и сдвигает 
+                            его в ту или иную сторону от первоначального расположения.  */
+      }
+                       
+                     
+               .tabl-ico {
+                    position: absolute;  /* absolute - Указывает, что элемент абсолютно позиционирован, при этом другие элементы
+                                          отображаются на веб-странице словно абсолютно позиционированного элемента и нет. 
+                                          Положение элемента задается свойствами left, top, right и bottom, также на положение 
+                                          влияет значение свойства position родительского элемента.*/
+                    top: 0;  
+                    right: 0;
+                    
+               }   
+               
+                       .tabl-ico img{
+                       display: block;
+                       }
