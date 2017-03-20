@@ -1,0 +1,121 @@
+<?php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" dir="ltr">
+<head>
+	<title>Книги по категориям</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="ru" />
+	<link rel="stylesheet" type="text/css" href="mod_2_1.css" />
+	<script type="text/javascript" src="xmlhttprequest.js"></script>
+	<script type="text/javascript" src=" http://code.jquery.com/jquery-1.11.2.js "></script>
+	<script type="text/javascript">
+		
+		
+		function dobavlenieOption(text){
+		var elements=document.getElementById('selCategory');
+		var option = document.createElement("option"); // создание элемента
+		 var str = text.split("-"); // разделение строки на едементы с разделителем :
+		for(var $i=0; $i <str.length; $i++){
+		option.className=str[$i];
+		}
+			elements.appendChild(option); // добавление элемента в нужное место
+			var optionText = document.createTextNode(text); // создание текста 
+			option.appendChild(optionText); // добавление текста в элемент
+		}
+		
+		
+		function showop(){
+		var obj= getXmlHttpRequest(); // объект getXmlHttpRequest()
+		obj.onreadystatechange = function(){ //вызывается обработчик
+		
+		if (obj.readyState == 4){ // при изменении состояния запрос
+		if (obj.status == 200){ // при таком статусе
+		var str = obj.responseText.split(":"); // разделение строки на едементы с разделителем :
+		
+		for(var $i=0; $i <str.length; $i++){ // цикл разделения строки на элементы
+		          dobavlenieOption(str[$i]); // каждый елемент в функцию
+         
+		}  
+		}end();}//
+		}
+		obj.open("GET","getcategories.php", true);
+		obj.send(null);
+		}
+		/* После того как загрузтся вся страница  */
+		window.onload = function() 
+		{  
+		
+			showop();
+		}
+		function clearList()
+		{
+			var ulResult = document.getElementById("show_book");
+			while (ulResult.hasChildNodes()) // ulResult имеет ли текущий Node дочерние узлы или нет.
+				ulResult.removeChild(ulResult.firstChild);
+				// removeChild - удаление элемента
+				//Свойства firstChild и lastChild обеспечивают 
+				//быстрый доступ к первому и последнему элементу.
+		}
+		
+		// Добавление нового элемента списка
+		function addListItem(text)
+		{
+			if (text.length == 0) return;
+			var ulResult = document.getElementById("show_book"); // выбираю место
+			var li = document.createElement("li"); // создание элемента
+			ulResult.appendChild(li); // добавление элемента в нужное место
+			var liText = document.createTextNode(text); // создание текста 
+			li.appendChild(liText); // добавление текста в элемент
+			
+		/*В jQuery и эта задача может быть решена в одну строчку с помощью всё
+		того же метода .append():
+		
+         $('#ulResult').append('<li>text<li>');*/
+		}
+		
+		function end(){
+		//var selind = document.getElementById("selCategory").options.selectedIndex;
+		$("#bot").click(function(){
+		
+		var val= $("#selCategory :selected").attr('class'); 
+		var val1= "cat="+encodeURIComponent(val);
+		//alert(val);
+		var obj= getXmlHttpRequest(); // объект getXmlHttpRequest()
+		obj.onreadystatechange = function(){ //вызывается обработчик
+		
+		if (obj.readyState == 4){ // при изменении состояния запрос
+		if (obj.status == 200){
+		var str = obj.responseText.split(":"); // разделение строки на едементы с разделителем :
+		//alert(str);
+		clearList();
+		for(var $i=0; $i <str.length; $i++){ // цикл разделения строки на элементы
+		
+		addListItem(str[$i]);
+		} //end- конец цикла
+		} //end obj.status == 200
+		} //end readyState == 4
+
+		} //end obj.onreadystatechange
+		
+		obj.open("POST","proverca_bd_post.php", true);
+		obj.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		obj.send(val1);
+		})
+        
+		
+		}
+		
+			</script>
+</head>
+<body>
+	<h1>Книги по категориям</h1>
+	<form onsubmit="return false">
+		<div>
+			<label for="selCategory">Категория</label>
+			<select id="selCategory"></select>
+			<button id="bot" onclick="">Показать</button>
+			<div id="show_book"></div>
+		</div>
+	</form>
+</body>
+</html>

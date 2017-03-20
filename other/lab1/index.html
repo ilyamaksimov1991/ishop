@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" dir="ltr">
+<head>
+	<title>Лабораторная работа 1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="ru" />
+	<script type="text/javascript">
+		/*
+		** Задание 1: Напишите функцию создания объекта XmlHttpRequest
+		**     function getXmlHttpRequest()
+		*/
+		function getXmlHttpRequest()
+		{
+			if (window.XMLHttpRequest) 
+			{
+				try 
+				{
+					return new XMLHttpRequest();
+				} 
+				catch (e){}
+			} 
+			else if (window.ActiveXObject) 
+			{
+				try 
+				{
+					return new ActiveXObject('Msxml2.XMLHTTP');
+				} catch (e){}
+				try 
+				{
+					return new ActiveXObject('Microsoft.XMLHTTP');
+				} 
+				catch (e){}
+			}
+			return null;
+		}
+		
+		/*
+		** Задание 2: Напишите Функцию (функции) запроса к серверу (getbooktxt.php), 
+		** которая АСИНХРОННОЕ запрашивает нужную книгу по номеру (getbooktxt.php?num=1)
+		** и выводит строку с названием этой книги в элемент divResult HTML страницы
+		**     function getBookByNumber(number)
+		*/
+		function getBookByNumber(number)
+		{
+			var request = getXmlHttpRequest();
+			request.onreadystatechange = function()
+			{
+				if (request.readyState != 4) return;
+
+				// Вывод запроса на экран
+				var divResult = document.getElementById("divResult");
+				divResult.firstChild.nodeValue = request.responseText;
+			}
+			
+			// Запрос
+			request.open("GET", "getbooktxt.php?num=" + number, true);
+			request.send(null);
+		}
+		
+		/*
+		** Задание 3: Напишите код обработчика нажатия на кнопку
+		** Эта функция должна прочитать введенное значение в поле txtNum
+		** и вызвать функцию getBookByNumber(value)
+		**     function showBook()
+		*/ 
+		function showBook()
+		{
+			var txtNum = document.getElementById("txtNum");
+			getBookByNumber(txtNum.value);
+		}
+	</script>
+</head>
+<body>
+	<h1>Лабораторная работа 1</h1>
+	<form onsubmit="return false">
+		<label for="txtNum">Введите номер книги:</label>
+		<input id="txtNum" type="text" />
+		<!-- Задание 4: не забудьте поставить обработчик нажатия -->
+		<button onclick="showBook()">Поиск</button>
+	</form>
+	<div id="divResult">&nbsp;</div>
+</body>
+</html>
+
